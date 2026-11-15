@@ -1,0 +1,22 @@
+{
+  "name": "Mile High Web Plug",
+  "short_name": "MHWP",
+  "description": "Websites, email, booking, and AI tools for Denver small businesses.",
+  "id": "/",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#070910",
+  "theme_color": "#070910",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Pet care demo", "short_name": "Pet care", "url": "/demo#pet", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Home services demo", "short_name": "Cleaning", "url": "/demo#clean", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Wellness demo", "short_name": "Bodywork", "url": "/demo#body", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}

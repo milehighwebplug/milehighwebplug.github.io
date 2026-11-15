@@ -1,0 +1,239 @@
+/* Milehighwebplug demo engine — preview sandbox styles.
+   All preview rules are scoped under .pv (the sandbox root).
+   Palette switching works purely through CSS custom properties set on .pv. */
+
+/* ---------- shell ---------- */
+.pv-sandbox {
+  border: 1px solid #3A3F4A;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #0B0D10;
+}
+.pv-browserbar {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  background: #14161A;
+  border-bottom: 1px solid #2A2E36;
+  font-size: 0.75rem; color: #6B7280;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+.pv-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.pv-url {
+  flex: 1; background: #1E2022; border: 1px solid #2A2E36;
+  border-radius: 6px; padding: 0.2rem 0.7rem; color: #9AA3B2;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pv {
+  --pv-text: #F8F9FA;
+  --pv-text-muted: color-mix(in srgb, var(--pv-text) 62%, transparent);
+  --pv-surface: color-mix(in srgb, var(--bg-neutral) 88%, var(--pv-text) 8%);
+  --pv-border: color-mix(in srgb, var(--bg-neutral) 78%, var(--pv-text) 14%);
+  background: var(--bg-neutral);
+  color: var(--pv-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  min-height: 420px;
+}
+.pv * { box-sizing: border-box; margin: 0; padding: 0; }
+.pv a { text-decoration: none; color: inherit; }
+.pv .wrap { max-width: 900px; margin: 0 auto; padding: 2.25rem 1.75rem; }
+.pv .wrap + .wrap { padding-top: 1.5rem; }
+
+.pv .pvbtn {
+  display: inline-block; padding: 0.6rem 1.25rem;
+  background: var(--primary); color: var(--pv-on-primary, #fff);
+  font-weight: 700; font-size: 0.85rem; border-radius: 8px;
+  border: none; cursor: default;
+}
+.pv .pvbtn.alt { background: var(--accent); color: var(--pv-on-accent, var(--bg-neutral)); }
+.pv .pill {
+  display: inline-block; padding: 0.22rem 0.7rem;
+  border-radius: 50px; font-size: 0.7rem; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  color: var(--pv-primary-text, var(--primary));
+}
+
+/* top nav inside mock site */
+.pv .topbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 0.9rem 1.75rem;
+  border-bottom: 1px solid var(--pv-border);
+  background: var(--pv-surface);
+}
+.pv .topbar .logo { font-weight: 800; font-size: 1rem; }
+.pv .topbar nav { display: flex; gap: 1.1rem; font-size: 0.8rem; color: var(--pv-text-muted); flex-wrap: wrap; }
+.pv .topbar nav .pgtab { cursor: pointer; padding: 0.15rem 0.5rem; border-radius: 6px; }
+.pv .topbar nav .pgtab.active { background: var(--primary); color: var(--pv-on-primary, #fff); font-weight: 700; }
+
+/* sections */
+.pv h2.sect { font-size: 1.35rem; margin-bottom: 1rem; }
+.pv .sub { color: var(--pv-text-muted); font-size: 0.9rem; margin-bottom: 1.25rem; }
+.pv .foot {
+  border-top: 1px solid var(--pv-border);
+  padding: 1.1rem 1.75rem; text-align: center;
+  color: var(--pv-text-muted); font-size: 0.75rem;
+}
+
+/* ---------- service card mode ---------- */
+.pv .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1rem; }
+.pv .card {
+  background: var(--pv-surface);
+  border: 1px solid var(--pv-border);
+  border-radius: 12px; padding: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.pv .card h4 { font-size: 1rem; }
+.pv .card p { color: var(--pv-text-muted); font-size: 0.83rem; flex: 1; }
+.pv .card .pr { font-size: 1.3rem; font-weight: 800; color: var(--pv-primary-text, var(--primary)); }
+.pv .card .pr small { font-size: 0.72rem; color: var(--pv-text-muted); font-weight: 600; }
+
+/* ---------- numbered / list mode ---------- */
+.pv .plist { display: flex; flex-direction: column; gap: 0.8rem; }
+.pv .pitem {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+  border-bottom: 1px dashed var(--pv-border); padding-bottom: 0.8rem;
+}
+.pv .pitem h4 { font-size: 0.98rem; }
+.pv .pitem p { color: var(--pv-text-muted); font-size: 0.83rem; }
+.pv .pitem .pr { font-weight: 800; color: var(--pv-primary-text, var(--primary)); white-space: nowrap; }
+
+/* ---------- table mode (metro-k9) ---------- */
+.pv table.pricetbl { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.pv table.pricetbl th {
+  background: var(--primary); color: var(--pv-on-primary, #fff); text-align: left;
+  padding: 0.55rem 0.8rem; font-size: 0.72rem; letter-spacing: 1.2px; text-transform: uppercase;
+}
+.pv table.pricetbl td { padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--pv-border); vertical-align: top; }
+.pv table.pricetbl td.pr { font-weight: 800; color: var(--pv-primary-text, var(--primary)); white-space: nowrap; }
+
+/* ---------- about strip ---------- */
+.pv .about-row { display: grid; grid-template-columns: 150px 1fr; gap: 1.5rem; align-items: start; }
+.pv .bio-photo {
+  width: 150px; height: 150px; border-radius: 14px;
+  background: color-mix(in srgb, var(--primary) 22%, var(--pv-surface));
+  border: 1px solid var(--pv-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--pv-text-muted); font-size: 0.7rem; text-align: center; padding: 0.5rem;
+}
+.pv .about-row p { font-size: 0.9rem; color: var(--pv-text-muted); margin-bottom: 0.6rem; }
+.pv .creds { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+.pv .creds span {
+  font-size: 0.72rem; padding: 0.25rem 0.7rem; border-radius: 50px;
+  border: 1px solid var(--pv-border); color: var(--pv-text);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+/* ---------- faq ---------- */
+.pv .qa { margin-bottom: 0.9rem; }
+.pv .qa h5 { font-size: 0.92rem; margin-bottom: 0.25rem; }
+.pv .qa p { font-size: 0.85rem; color: var(--pv-text-muted); }
+
+/* ---------- gallery ---------- */
+.pv .gal { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 0.6rem; }
+.pv .gal .cell {
+  aspect-ratio: 1; border-radius: 10px;
+  background: var(--pv-surface); border: 1px solid var(--pv-border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.68rem; color: var(--pv-text-muted); text-align: center; padding: 0.4rem;
+}
+
+/* ---------- CTA band ---------- */
+.pv .ctaband {
+  text-align: center; padding: 2.25rem 1.75rem;
+  background: color-mix(in srgb, var(--primary) 16%, var(--bg-neutral));
+  border-top: 1px solid var(--pv-border);
+}
+.pv .ctaband h3 { margin-bottom: 0.4rem; font-size: 1.25rem; }
+.pv .ctaband p { color: var(--pv-text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+
+/* =========================================================
+   TEMPLATE 1 — THE URBAN LEASH (left hero, high contrast)
+   ========================================================= */
+.t-urban .hero { text-align: left; padding-bottom: 0.5rem; }
+.t-urban .hero h1 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); font-weight: 800; letter-spacing: -0.5px; margin: 0.75rem 0 0.8rem; }
+.t-urban .hero p { color: var(--pv-text-muted); max-width: 520px; margin-bottom: 1.1rem; }
+.t-urban .topbar { border-bottom: 3px solid var(--primary); }
+.t-urban .sect { border-left: 4px solid var(--primary); padding-left: 0.7rem; }
+
+/* =========================================================
+   TEMPLATE 2 — ALPINE PAWS (centered, rugged band)
+   ========================================================= */
+.t-alpine .hero { text-align: center; }
+.t-alpine .hero h1 { font-size: clamp(1.6rem, 3.6vw, 2.3rem); margin: 0.75rem auto 0.8rem; max-width: 560px; }
+.t-alpine .hero p { color: var(--pv-text-muted); max-width: 540px; margin: 0 auto 1.1rem; }
+.t-alpine .ridge {
+  height: 10px;
+  background: repeating-linear-gradient(135deg, var(--accent) 0 14px, transparent 14px 28px);
+  opacity: 0.55;
+}
+.t-alpine .card { border-bottom: 3px solid var(--accent); border-radius: 6px; }
+
+/* =========================================================
+   TEMPLATE 3 — GENTLE PAWS (serif, soft, centered)
+   ========================================================= */
+.t-gentle { font-family: Georgia, "Times New Roman", serif; }
+.t-gentle .hero { text-align: center; }
+.t-gentle .hero h1 { font-weight: 400; font-size: clamp(1.55rem, 3.2vw, 2.15rem); margin: 0.75rem 0 0.9rem; }
+.t-gentle .hero p { color: var(--pv-text-muted); max-width: 500px; margin: 0 auto 1.2rem; }
+.t-gentle .pvbtn { border-radius: 50px; }
+.t-gentle .card { border-radius: 18px; text-align: center; }
+.t-gentle .about-row { grid-template-columns: 1fr; }
+.t-gentle .bio-photo { border-radius: 50%; width: 120px; height: 120px; margin: 0 auto; }
+.t-gentle .sect { text-align: center; font-weight: 400; }
+
+/* =========================================================
+   TEMPLATE 4 — METRO K9 (industrial uppercase, tables)
+   ========================================================= */
+.t-metro .topbar { border-top: 4px solid var(--accent); }
+.t-metro .logo { text-transform: uppercase; letter-spacing: 2px; font-size: 0.95rem; }
+.t-metro .hero { border-bottom: 1px solid var(--pv-border); }
+.t-metro .hero h1 { text-transform: uppercase; font-size: clamp(1.4rem, 3.2vw, 2rem); font-weight: 900; letter-spacing: 0.5px; margin: 0.75rem 0 0.8rem; }
+.t-metro .hero p { color: var(--pv-text-muted); max-width: 560px; margin-bottom: 1.1rem; }
+.t-metro .sect { text-transform: uppercase; font-size: 1.05rem; letter-spacing: 1.5px; font-weight: 900; }
+.t-metro .pvbtn { text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; font-size: 0.78rem; }
+.t-metro .card { border-left: 4px solid var(--accent); border-radius: 4px; }
+
+/* =========================================================
+   TEMPLATE 5 — WAG COLLECTIVE (playful polaroids)
+   ========================================================= */
+.t-wag .hero { text-align: center; }
+.t-wag .hero h1 { font-size: clamp(1.6rem, 3.6vw, 2.35rem); font-weight: 900; letter-spacing: -1px; margin: 0.75rem 0 0.8rem; }
+.t-wag .hero h1 i { font-style: normal; color: var(--pv-accent-text, var(--accent)); }
+.t-wag .hero p { color: var(--pv-text-muted); max-width: 540px; margin: 0 auto 1.2rem; }
+.t-wag .pvbtn { border-radius: 50px; box-shadow: 0 4px 0 color-mix(in srgb, var(--primary) 55%, #000); }
+.t-wag .card { border: 2px solid var(--primary); border-radius: 18px; }
+.t-wag .card h4::before { content: "🐾 "; }
+.t-wag .polaroids { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin: 1.25rem 0; }
+.t-wag .pol {
+  background: #fff; color: #333; width: 130px; padding: 0.45rem 0.45rem 1.4rem;
+  border-radius: 4px; font-size: 0.68rem; font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+}
+.t-wag .pol .ph { height: 84px; background: var(--pv-surface); display: flex; align-items: center; justify-content: center; color: var(--pv-text-muted); margin-bottom: 0.35rem; border-radius: 2px; }
+.t-wag .pol:nth-child(1) { transform: rotate(-2.5deg); }
+.t-wag .pol:nth-child(2) { transform: rotate(1.5deg); }
+.t-wag .pol:nth-child(3) { transform: rotate(-1deg); }
+
+/* =========================================================
+   TEMPLATE 6 — VELVET WHISKERS (minimalist, thin rules)
+   ========================================================= */
+.t-whiskers { font-family: "Palatino Linotype", Palatino, Georgia, serif; }
+.t-whiskers .topbar { border-bottom: 1px solid var(--pv-border); }
+.t-whiskers .logo { letter-spacing: 1px; font-weight: 400; }
+.t-whiskers .hero { text-align: center; padding-top: 3rem; padding-bottom: 2.5rem; }
+.t-whiskers .hero .line { width: 44px; height: 1px; background: var(--accent); margin: 0 auto 1.5rem; }
+.t-whiskers .hero h1 { font-weight: 400; font-size: clamp(1.5rem, 3.1vw, 2.1rem); line-height: 1.35; margin-bottom: 0.9rem; }
+.t-whiskers .hero p { color: var(--pv-text-muted); max-width: 480px; margin: 0 auto 1.3rem; }
+.t-whiskers .pvbtn { border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; font-size: 0.72rem; }
+.t-whiskers .sect { font-weight: 400; text-align: center; }
+.t-whiskers .pitem .pr { color: var(--pv-accent-text, var(--accent)); }
+
+/* ---------- booking form preview ---------- */
+.pv .bookform { background: var(--pv-surface); border: 1px solid var(--pv-border); border-radius: 12px; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; max-width: 640px; }
+.pv .bookform label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: var(--pv-text-muted); }
+.pv .bookform input, .pv .bookform select, .pv .bookform textarea { background: var(--bg-neutral); border: 1px solid var(--pv-border); border-radius: 8px; padding: 0.55rem 0.7rem; font: inherit; font-size: 0.9rem; color: var(--pv-text); text-transform: none; letter-spacing: normal; font-weight: 400; resize: none; }
+.pv .bf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+.pv .bookform .pvbtn { align-self: flex-start; }
+.pv .bf-note { font-size: 0.8rem; color: var(--pv-text-muted); }
+@media (max-width: 560px) { .pv .bf-row { grid-template-columns: 1fr; } }
