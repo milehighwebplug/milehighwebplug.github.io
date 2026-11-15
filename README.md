@@ -1,4 +1,4 @@
-# Portfolio site — milehighwebplug.github.io
+# Portfolio site — pages.milehighwebplug.xyz
 
 Single-page static site. No build step, no invented clients.
 
@@ -13,7 +13,7 @@ Single-page static site. No build step, no invented clients.
 
 ## Deploy (org site, moved 2026-11-14)
 The portfolio now lives on the Mile High Web Plug org site at
-https://milehighwebplug.github.io/ — the org repo
+https://pages.milehighwebplug.xyz/ — the org repo
 `milehighwebplug/milehighwebplug.github.io` (main branch). It replaced the
 MHWP website mirror there. The old personal site at gulp7096.github.io still
 exists but is no longer the canonical portfolio.
@@ -21,7 +21,7 @@ exists but is no longer the canonical portfolio.
 1. Push this folder's contents to the org repo `milehighwebplug.github.io`,
    root (main branch).
 2. Settings → Pages → Source: Deploy from a branch, branch `main`, folder `/ (root)`.
-3. Visit https://milehighwebplug.github.io/ and check: title, HN table (top 5 rows),
+3. Visit https://pages.milehighwebplug.xyz/ and check: title, HN table (top 5 rows),
    and the four file links (hn_top30.csv, scraper.py, verify_deliverable.py,
    Proposal-HN-Frontpage-QA.md) all open.
 
