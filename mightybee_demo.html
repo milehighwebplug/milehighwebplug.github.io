@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MightyBee Electric: Appointment Confirmation and Inspection Follow-Up Demo</title>
+<style>
+  :root { --ink:#1c1e1c; --muted:#5c605c; --line:#d8dbd5; --card:#f6f8f4; --page:#edf0ea; --accent:#2e5e4e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--page); color:var(--ink); font:16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width:860px; margin:0 auto; padding:28px 18px 48px; }
+  h1 { font-size:26px; line-height:1.25; margin:0 0 6px; font-weight:600; }
+  .sub { color:var(--muted); margin:0 0 22px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; margin:0 0 16px; }
+  .card h2 { font-size:17px; margin:0 0 10px; font-weight:600; }
+  .card p { margin:0 0 10px; color:var(--muted); font-size:14px; }
+  label { display:block; font-size:13px; font-weight:600; margin:12px 0 4px; }
+  label:first-of-type { margin-top:0; }
+  input, select { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .btn { display:inline-block; border:0; border-radius:8px; padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; background:var(--accent); color:#fff; margin-top:14px; }
+  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .btn.small { padding:5px 10px; font-size:13px; margin-top:0; }
+  .sms { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin:10px 0; font-size:15px; white-space:pre-wrap; }
+  .sms .from { color:var(--muted); font-size:13px; display:block; margin-bottom:6px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; color:var(--muted); font-weight:600; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; }
+  .pill.ok { background:#e3efe7; color:#2e5e4e; }
+  .pill.warn { background:#fdf3d7; color:#7a5b00; }
+  .pill.bad { background:#fbe4e4; color:#8a2a2a; }
+  .note { font-size:13px; color:var(--muted); }
+  footer { margin-top:22px; font-size:13px; color:var(--muted); }
+  @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>MightyBee Electric: appointment confirmation and inspection follow-up</h1>
+  <p class="sub">Concept demo. When a customer books a panel upgrade or an EV-charger install, the system confirms the appointment by SMS, sends a day-before reminder, and texts "we're on our way" on the morning of the visit. A missed-call log records every missed call so a customer who calls back is never left unanswered, and an inspection follow-up tracker keeps every panel-upgrade job on the board with its city-inspection step until the inspection is confirmed done. A panel upgrade is not finished until the city inspection is done, and that step was forgotten once already.</p>
+
+  <div class="card">
+    <h2>1. Book an appointment</h2>
+    <p>Fill in a booking the way a customer would. The confirmation text is what the customer receives, and the appointment goes on the board below. A day-before reminder and a morning "we're on our way" text follow automatically.</p>
+    <label for="name">Name</label>
+    <input id="name" value="Pat R.">
+    <label for="phone">Mobile</label>
+    <input id="phone" value="(303) 555-0142">
+    <div class="row">
+      <div>
+        <label for="service">Service</label>
+        <select id="service">
+          <option>Panel upgrade</option>
+          <option>EV charger install</option>
+          <option>Smoke-detector check</option>
+          <option>Surge protection</option>
+          <option>Smart-home work</option>
+        </select>
+      </div>
+      <div>
+        <label for="window">Appointment window</label>
+        <select id="window">
+          <option>Today, 9:00–11:00 AM</option>
+          <option>Today, 1:00–3:00 PM</option>
+          <option>Tomorrow, 9:00–11:00 AM</option>
+          <option>Tomorrow, 1:00–3:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="bookBtn">Confirm booking</button>
+    <div id="confirmSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="smsPhone"></span> · MightyBee Electric</span><span id="smsText"></span></div>
+      <p class="note">Added to the appointment board below as Confirmed, and logged to the missed-call log. A day-before reminder and a morning "we're on our way" text will follow.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Simulate the morning text, a late tech, a reschedule, or a missed window</h2>
+    <p>Pick a booked appointment and run the scenario. The customer gets a text either way, instead of silence, and the appointment board status updates. A missed window is logged, so the customer is followed up instead of left waiting.</p>
+    <div class="row">
+      <div>
+        <label for="simAppt">Appointment</label>
+        <select id="simAppt">
+          <option value="pat-appt">Pat R. · Panel upgrade · Today 9:00–11:00 AM</option>
+          <option value="sam-appt">Sam K. · EV charger · Today 1:00–3:00 PM</option>
+          <option value="jordan-appt">Jordan L. · Panel upgrade · Tomorrow 9:00–11:00 AM</option>
+        </select>
+      </div>
+      <div>
+        <label for="simKind">What happens</label>
+        <select id="simKind">
+          <option value="enroute">Morning: tech on the way</option>
+          <option value="late">Tech running 45 minutes late</option>
+          <option value="rescheduled">Appointment rescheduled to Tomorrow 1:00–3:00 PM</option>
+          <option value="missed">Window missed, tech never arrived</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="simBtn">Send the update</button>
+    <div id="simSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="simPhone"></span> · MightyBee Electric</span><span id="simText"></span></div>
+      <p class="note">Appointment board status updated, and logged to the missed-call log below.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Today's appointment board</h2>
+    <p>The office checks this board in the morning. Every booked appointment is on it, with its window and status, so an appointment cannot be entered wrong and forgotten and a customer is never left waiting without a text.</p>
+    <table>
+      <thead><tr><th>Customer</th><th>Service / window</th><th>Status</th></tr></thead>
+      <tbody id="boardBody">
+        <tr data-job="pat-appt"><td>Pat R.</td><td>Panel upgrade · Today 9:00–11:00 AM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+        <tr data-job="sam-appt"><td>Sam K.</td><td>EV charger · Today 1:00–3:00 PM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+        <tr data-job="jordan-appt"><td>Jordan L.</td><td>Panel upgrade · Tomorrow 9:00–11:00 AM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>4. Missed-call log</h2>
+    <p>Every booking, confirmation, "we're on our way" text, late notice, missed window, and missed call in one place, with whether it was followed up. A customer who calls back is never left unanswered: a missed call gets a text back automatically.</p>
+    <button class="btn ghost" id="missedCallBtn">Simulate a missed office call</button>
+    <div id="callSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="callPhone"></span> · MightyBee Electric</span><span id="callText"></span></div>
+      <p class="note">Logged to the board below.</p>
+    </div>
+    <table>
+      <thead><tr><th>Customer</th><th>Service / window</th><th>Status</th><th>Follow-up</th></tr></thead>
+      <tbody id="logBody">
+        <tr><td>Pat R.</td><td>Panel upgrade · Today 9:00–11:00 AM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+        <tr><td>Sam K.</td><td>EV charger · Today 1:00–3:00 PM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+        <tr><td>Jordan L.</td><td>Panel upgrade · Tomorrow 9:00–11:00 AM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>5. Inspection follow-up tracker: panel upgrades and the city inspection</h2>
+    <p>A panel upgrade is not finished until the city inspection is done. Every panel-upgrade job stays on this board with its inspection step until the inspection is confirmed done, so the step that was forgotten once can never be forgotten again. When an inspection is confirmed, mark it done here and the job closes.</p>
+    <button class="btn ghost" id="inspectBtn">Mark Pat R. inspection confirmed</button>
+    <table>
+      <thead><tr><th>Job</th><th>Inspection</th><th>Status</th></tr></thead>
+      <tbody id="inspectBody">
+        <tr data-job="pat-insp"><td>Pat R. · Panel upgrade</td><td>Not booked</td><td class="inspectStatus"><span class="pill bad">Overdue</span></td></tr>
+        <tr data-job="sam-insp"><td>Sam K. · Panel upgrade</td><td>Fri 10:00 AM</td><td class="inspectStatus"><span class="pill warn">Scheduled</span></td></tr>
+        <tr data-job="jordan-insp"><td>Jordan L. · Panel upgrade</td><td>Done Tue</td><td class="inspectStatus"><span class="pill ok">Confirmed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Built by Chris · <a href="mailto:chris@milehighwebplug.xyz">chris@milehighwebplug.xyz</a> · Portfolio: <a href="https://pages.milehighwebplug.xyz/">pages.milehighwebplug.xyz</a></footer>
+</div>
+<script>
+(function(){
+  var logBody = document.getElementById('logBody');
+  var boardBody = document.getElementById('boardBody');
+  var inspectBody = document.getElementById('inspectBody');
+  function addLogRow(customer, service, statusHtml, follow){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td></td><td></td><td></td><td></td>';
+    tr.children[0].textContent = customer;
+    tr.children[1].textContent = service;
+    tr.children[2].innerHTML = statusHtml;
+    tr.children[3].textContent = follow;
+    logBody.prepend(tr);
+    return tr;
+  }
+  function addBoardRow(customer, service){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td></td><td></td><td class="boardStatus"><span class="pill ok">Confirmed</span></td>';
+    tr.children[0].textContent = customer;
+    tr.children[1].textContent = service;
+    boardBody.appendChild(tr);
+  }
+  function setBoardStatus(job, statusHtml){
+    var row = boardBody.querySelector('tr[data-job="' + job + '"]');
+    if (row) row.querySelector('.boardStatus').innerHTML = statusHtml;
+  }
+  document.getElementById('bookBtn').addEventListener('click', function(){
+    var name = document.getElementById('name').value.trim() || 'Customer';
+    var phone = document.getElementById('phone').value.trim();
+    var service = document.getElementById('service').value;
+    var win = document.getElementById('window').value;
+    document.getElementById('smsPhone').textContent = phone;
+    document.getElementById('smsText').textContent = 'Hi ' + name.split(' ')[0] + ', your ' + service.toLowerCase() + ' with MightyBee Electric is confirmed for ' + win + '. We will text you a reminder the day before and when the tech is on the way. Reply to reschedule. - MightyBee Electric';
+    document.getElementById('confirmSms').hidden = false;
+    addBoardRow(name, service + ' · ' + win);
+    addLogRow(name, service + ' · ' + win, '<span class="pill ok">Confirmed</span>', 'SMS sent');
+  });
+  document.getElementById('simBtn').addEventListener('click', function(){
+    var appt = document.getElementById('simAppt').value;
+    var kind = document.getElementById('simKind').value;
+    var jobs = {
+      'pat-appt': { customer: 'Pat R.', phone: '(303) 555-0142', service: 'Panel upgrade · Today 9:00–11:00 AM' },
+      'sam-appt': { customer: 'Sam K.', phone: '(303) 555-0117', service: 'EV charger · Today 1:00–3:00 PM' },
+      'jordan-appt': { customer: 'Jordan L.', phone: '(303) 555-0163', service: 'Panel upgrade · Tomorrow 9:00–11:00 AM' }
+    };
+    var j = jobs[appt];
+    var first = j.customer.split(' ')[0];
+    var svc = j.service.split(' · ')[0].toLowerCase();
+    var text, status, follow;
+    if (kind === 'enroute') {
+      text = 'Hi ' + first + ', your MightyBee tech is on the way for your ' + svc + ' appointment window today. Expected arrival at the start of your window. Reply if you need to reschedule. - MightyBee Electric';
+      status = '<span class="pill ok">En route</span>';
+      follow = 'SMS sent, tech en route';
+    } else if (kind === 'late') {
+      text = 'Hi ' + first + ', your MightyBee tech is running about 45 minutes late for your ' + svc + ' appointment window. New arrival about 45 minutes after the window start. Sorry for the wait. Reply to reschedule if that does not work. - MightyBee Electric';
+      status = '<span class="pill warn">Running late</span>';
+      follow = 'SMS sent, tech notified';
+    } else if (kind === 'rescheduled') {
+      text = 'Hi ' + first + ', your MightyBee appointment has been moved to Tomorrow, 1:00–3:00 PM. Sorry for the change. Reply if that does not work, or call (303) 288-7988. - MightyBee Electric';
+      status = '<span class="pill warn">Rescheduled</span>';
+      follow = 'SMS sent, new window offered';
+    } else {
+      text = 'Hi ' + first + ', we missed your ' + svc + ' appointment window today and we are sorry. No tech arrived. We have already followed up on our own: reply to this text and we will rebook you first thing, or call (303) 288-7988. - MightyBee Electric';
+      status = '<span class="pill bad">Missed visit</span>';
+      follow = 'Auto follow-up SMS sent';
+    }
+    document.getElementById('simPhone').textContent = j.phone;
+    document.getElementById('simText').textContent = text;
+    document.getElementById('simSms').hidden = false;
+    setBoardStatus(appt, status);
+    addLogRow(j.customer, j.service, status, follow);
+  });
+  document.getElementById('missedCallBtn').addEventListener('click', function(){
+    var phone = '(303) 555-0188';
+    document.getElementById('callPhone').textContent = phone;
+    document.getElementById('callText').textContent = 'Hi, we missed your call to MightyBee Electric. Reply to this text to book an appointment or ask a question, and we will get back to you. - MightyBee Electric';
+    document.getElementById('callSms').hidden = false;
+    addLogRow('Unknown caller ' + phone, 'Missed call · ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}), '<span class="pill warn">Missed call</span>', 'Auto SMS sent, needs callback');
+  });
+  document.getElementById('inspectBtn').addEventListener('click', function(){
+    var row = inspectBody.querySelector('tr[data-job="pat-insp"]');
+    if (row) {
+      row.querySelector('.inspectStatus').innerHTML = '<span class="pill ok">Confirmed</span>';
+      row.children[1].textContent = 'Done today';
+    }
+    addLogRow('Pat R.', 'Panel upgrade · Inspection confirmed', '<span class="pill ok">Confirmed</span>', 'Inspection logged, job closed');
+  });
+})();
+</script>
+</body>
+</html>

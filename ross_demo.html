@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ross Tree Company: Estimate Confirmation and No-Show Follow-Up Demo</title>
+<style>
+  :root { --ink:#1c1e1c; --muted:#5c605c; --line:#d8dbd5; --card:#f6f8f4; --page:#edf0ea; --accent:#2e5e4e; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--page); color:var(--ink); font:16px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width:860px; margin:0 auto; padding:28px 18px 48px; }
+  h1 { font-size:26px; line-height:1.25; margin:0 0 6px; font-weight:600; }
+  .sub { color:var(--muted); margin:0 0 22px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; padding:18px; margin:0 0 16px; }
+  .card h2 { font-size:17px; margin:0 0 10px; font-weight:600; }
+  .card p { margin:0 0 10px; color:var(--muted); font-size:14px; }
+  label { display:block; font-size:13px; font-weight:600; margin:12px 0 4px; }
+  label:first-of-type { margin-top:0; }
+  input, select { width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:8px; font:inherit; background:#fff; }
+  .row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .btn { display:inline-block; border:0; border-radius:8px; padding:10px 16px; font:inherit; font-weight:600; cursor:pointer; background:var(--accent); color:#fff; margin-top:14px; }
+  .btn.ghost { background:#fff; color:var(--ink); border:1px solid var(--line); }
+  .btn.small { padding:5px 10px; font-size:13px; margin-top:0; }
+  .sms { background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px; margin:10px 0; font-size:15px; white-space:pre-wrap; }
+  .sms .from { color:var(--muted); font-size:13px; display:block; margin-bottom:6px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th, td { text-align:left; padding:8px 6px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { font-size:12px; color:var(--muted); font-weight:600; }
+  .pill { display:inline-block; padding:2px 8px; border-radius:99px; font-size:12px; font-weight:600; }
+  .pill.ok { background:#e3efe7; color:#2e5e4e; }
+  .pill.warn { background:#fdf3d7; color:#7a5b00; }
+  .pill.bad { background:#fbe4e4; color:#8a2a2a; }
+  .note { font-size:13px; color:var(--muted); }
+  footer { margin-top:22px; font-size:13px; color:var(--muted); }
+  @media (max-width:560px){ .row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Ross Tree Company: estimate confirmation and automatic no-show follow-up</h1>
+  <p class="sub">Concept demo. When a customer books an estimate, the system confirms the appointment by SMS, sends a day-before reminder, and texts "estimator en route" on the morning of the visit. If the estimator no-shows, the system follows up automatically instead of waiting for the customer to call and ask where the estimator is. Every booked estimate is on the day's estimate board, every missed call and no-show is in the log, and EAB treatment and Tri-Level Fertilization clients stay on their return-visit schedule.</p>
+
+  <div class="card">
+    <h2>1. Book an estimate</h2>
+    <p>Fill in a booking the way a customer would. The confirmation text is what the customer receives, and the estimate goes on the board below. A day-before reminder and a morning "estimator en route" text follow automatically.</p>
+    <label for="name">Name</label>
+    <input id="name" value="Karen P.">
+    <label for="phone">Mobile</label>
+    <input id="phone" value="(303) 555-0142">
+    <div class="row">
+      <div>
+        <label for="service">Service</label>
+        <select id="service">
+          <option>Tree trimming estimate</option>
+          <option>Tree removal estimate</option>
+          <option>EAB treatment estimate</option>
+          <option>Stump removal estimate</option>
+        </select>
+      </div>
+      <div>
+        <label for="window">Estimate window</label>
+        <select id="window">
+          <option>Today, 9:00–11:00 AM</option>
+          <option>Today, 1:00–3:00 PM</option>
+          <option>Tomorrow, 9:00–11:00 AM</option>
+          <option>Tomorrow, 1:00–3:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="bookBtn">Confirm booking</button>
+    <div id="confirmSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="smsPhone"></span> · Ross Tree Company</span><span id="smsText"></span></div>
+      <p class="note">Added to the estimate board below as Confirmed, and logged to the no-show follow-up log. A day-before reminder and a morning "estimator en route" text will follow.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Simulate the morning text, a late estimator, a reschedule, or a no-show</h2>
+    <p>Pick a booked estimate and run the scenario. The customer gets a text either way, instead of silence, and the estimate board status updates. A no-show triggers an automatic follow-up text, not a wait for the customer to call.</p>
+    <div class="row">
+      <div>
+        <label for="simAppt">Estimate</label>
+        <select id="simAppt">
+          <option value="linda-est">Linda P. · Trimming estimate · Today 9:00–11:00 AM</option>
+          <option value="james-est">James W. · Removal estimate · Today 1:00–3:00 PM</option>
+          <option value="dana-est">Dana S. · EAB estimate · Tomorrow 9:00–11:00 AM</option>
+        </select>
+      </div>
+      <div>
+        <label for="simKind">What happens</label>
+        <select id="simKind">
+          <option value="enroute">Morning: estimator en route</option>
+          <option value="late">Estimator running 45 minutes late</option>
+          <option value="rescheduled">Estimate rescheduled to Tomorrow 1:00–3:00 PM</option>
+          <option value="missed">Window missed, estimator never arrived</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn" id="simBtn">Send the update</button>
+    <div id="simSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="simPhone"></span> · Ross Tree Company</span><span id="simText"></span></div>
+      <p class="note">Estimate board status updated, and logged to the no-show follow-up log below.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Today's estimate board</h2>
+    <p>The office checks this board in the morning. Every booked estimate is on it, with its window and status, so an estimate cannot be entered wrong and forgotten and a customer is never left waiting without a text.</p>
+    <table>
+      <thead><tr><th>Customer</th><th>Service / window</th><th>Status</th></tr></thead>
+      <tbody id="boardBody">
+        <tr data-job="linda-est"><td>Linda P.</td><td>Trimming · Today 9:00–11:00 AM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+        <tr data-job="james-est"><td>James W.</td><td>Removal · Today 1:00–3:00 PM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+        <tr data-job="dana-est"><td>Dana S.</td><td>EAB · Tomorrow 9:00–11:00 AM</td><td class="boardStatus"><span class="pill ok">Confirmed</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>4. No-show follow-up and missed-call log</h2>
+    <p>Every booking, confirmation, en route text, late notice, missed window, missed call, and automatic no-show follow-up in one place, with whether it was followed up. A no-show is the failure this log exists to catch: the system follows up on its own, so the customer never has to call and ask where the estimator is.</p>
+    <button class="btn ghost" id="missedCallBtn">Simulate a missed office call</button>
+    <button class="btn ghost" id="returnBtn">Send return-visit reminder</button>
+    <div id="callSms" hidden>
+      <div class="sms"><span class="from">SMS to <span id="callPhone"></span> · Ross Tree Company</span><span id="callText"></span></div>
+      <p class="note">Logged to the board below.</p>
+    </div>
+    <table>
+      <thead><tr><th>Customer</th><th>Service / window</th><th>Status</th><th>Follow-up</th></tr></thead>
+      <tbody id="logBody">
+        <tr><td>Linda P.</td><td>Trimming · Today 9:00–11:00 AM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+        <tr><td>James W.</td><td>Removal · Today 1:00–3:00 PM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+        <tr><td>Dana S.</td><td>EAB · Tomorrow 9:00–11:00 AM</td><td><span class="pill ok">Confirmed</span></td><td>SMS sent</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>5. Return-visit schedule: EAB treatment and Tri-Level Fertilization</h2>
+    <p>Recurring care clients stay on schedule here. When a return visit comes due, the office sends a reminder from this board, so a client on EAB treatment or the Tri-Level Fertilization program never falls off the schedule unnoticed.</p>
+    <table>
+      <thead><tr><th>Client</th><th>Service</th><th>Next due</th><th>Status</th></tr></thead>
+      <tbody id="returnBody">
+        <tr data-client="mark-t"><td>Mark T.</td><td>EAB treatment</td><td>This week</td><td class="returnStatus"><span class="pill warn">Due</span></td></tr>
+        <tr data-client="susan-r"><td>Susan R.</td><td>Tri-Level Fertilization</td><td>Next week</td><td class="returnStatus"><span class="pill ok">Scheduled</span></td></tr>
+        <tr data-client="tom-b"><td>Tom B.</td><td>EAB treatment</td><td>In 2 weeks</td><td class="returnStatus"><span class="pill ok">Scheduled</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <footer>Built by Chris · <a href="mailto:chris@milehighwebplug.xyz">chris@milehighwebplug.xyz</a> · Portfolio: <a href="https://pages.milehighwebplug.xyz/">pages.milehighwebplug.xyz</a></footer>
+</div>
+<script>
+(function(){
+  var logBody = document.getElementById('logBody');
+  var boardBody = document.getElementById('boardBody');
+  var returnBody = document.getElementById('returnBody');
+  function addLogRow(customer, service, statusHtml, follow){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td></td><td></td><td></td><td></td>';
+    tr.children[0].textContent = customer;
+    tr.children[1].textContent = service;
+    tr.children[2].innerHTML = statusHtml;
+    tr.children[3].textContent = follow;
+    logBody.prepend(tr);
+    return tr;
+  }
+  function addBoardRow(customer, service){
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td></td><td></td><td class="boardStatus"><span class="pill ok">Confirmed</span></td>';
+    tr.children[0].textContent = customer;
+    tr.children[1].textContent = service;
+    boardBody.appendChild(tr);
+  }
+  function setBoardStatus(job, statusHtml){
+    var row = boardBody.querySelector('tr[data-job="' + job + '"]');
+    if (row) row.querySelector('.boardStatus').innerHTML = statusHtml;
+  }
+  document.getElementById('bookBtn').addEventListener('click', function(){
+    var name = document.getElementById('name').value.trim() || 'Customer';
+    var phone = document.getElementById('phone').value.trim();
+    var service = document.getElementById('service').value;
+    var win = document.getElementById('window').value;
+    document.getElementById('smsPhone').textContent = phone;
+    document.getElementById('smsText').textContent = 'Hi ' + name.split(' ')[0] + ', your ' + service.toLowerCase() + ' with Ross Tree Company is confirmed for ' + win + '. We will text you a reminder the day before and when the estimator is on the way. Reply to reschedule. - Ross Tree Company';
+    document.getElementById('confirmSms').hidden = false;
+    addBoardRow(name, service + ' · ' + win);
+    addLogRow(name, service + ' · ' + win, '<span class="pill ok">Confirmed</span>', 'SMS sent');
+  });
+  document.getElementById('simBtn').addEventListener('click', function(){
+    var appt = document.getElementById('simAppt').value;
+    var kind = document.getElementById('simKind').value;
+    var jobs = {
+      'linda-est': { customer: 'Linda P.', phone: '(303) 555-0142', service: 'Trimming · Today 9:00–11:00 AM' },
+      'james-est': { customer: 'James W.', phone: '(303) 555-0117', service: 'Removal · Today 1:00–3:00 PM' },
+      'dana-est': { customer: 'Dana S.', phone: '(303) 555-0163', service: 'EAB · Tomorrow 9:00–11:00 AM' }
+    };
+    var j = jobs[appt];
+    var first = j.customer.split(' ')[0];
+    var svc = j.service.split(' · ')[0].toLowerCase();
+    var text, status, follow;
+    if (kind === 'enroute') {
+      text = 'Hi ' + first + ', your Ross Tree estimator is on the way for your ' + svc + ' estimate window today. Expected arrival at the start of your window. Reply if you need to reschedule. - Ross Tree Company';
+      status = '<span class="pill ok">En route</span>';
+      follow = 'SMS sent, estimator en route';
+    } else if (kind === 'late') {
+      text = 'Hi ' + first + ', your Ross Tree estimator is running about 45 minutes late for your ' + svc + ' estimate window. New arrival about 45 minutes after the window start. Sorry for the wait. Reply to reschedule if that does not work. - Ross Tree Company';
+      status = '<span class="pill warn">Running late</span>';
+      follow = 'SMS sent, estimator notified';
+    } else if (kind === 'rescheduled') {
+      text = 'Hi ' + first + ', your Ross Tree estimate has been moved to Tomorrow, 1:00–3:00 PM. Sorry for the change. Reply if that does not work, or call (303) 871-9121. - Ross Tree Company';
+      status = '<span class="pill warn">Rescheduled</span>';
+      follow = 'SMS sent, new window offered';
+    } else {
+      text = 'Hi ' + first + ', we missed your ' + svc + ' estimate window today and we are sorry. No estimator arrived. We have already followed up on our own: reply to this text and we will rebook you first thing, or call (303) 871-9121. - Ross Tree Company';
+      status = '<span class="pill bad">Missed visit</span>';
+      follow = 'Auto follow-up SMS sent';
+    }
+    document.getElementById('simPhone').textContent = j.phone;
+    document.getElementById('simText').textContent = text;
+    document.getElementById('simSms').hidden = false;
+    setBoardStatus(appt, status);
+    addLogRow(j.customer, j.service, status, follow);
+  });
+  document.getElementById('missedCallBtn').addEventListener('click', function(){
+    var phone = '(303) 555-0188';
+    document.getElementById('callPhone').textContent = phone;
+    document.getElementById('callText').textContent = 'Hi, we missed your call to Ross Tree Company. Reply to this text to book an estimate or ask a question, and we will get back to you. - Ross Tree Company';
+    document.getElementById('callSms').hidden = false;
+    addLogRow('Unknown caller ' + phone, 'Missed call · ' + new Date().toLocaleTimeString([], {hour:'numeric', minute:'2-digit'}), '<span class="pill warn">Missed call</span>', 'Auto SMS sent, needs callback');
+  });
+  document.getElementById('returnBtn').addEventListener('click', function(){
+    var phone = '(303) 555-0191';
+    document.getElementById('callPhone').textContent = phone;
+    document.getElementById('callText').textContent = 'Hi Mark, your emerald ash borer treatment with Ross Tree Company is due this week. Reply to book your return visit, or call (303) 871-9121. - Ross Tree Company';
+    document.getElementById('callSms').hidden = false;
+    var row = returnBody.querySelector('tr[data-client="mark-t"]');
+    if (row) row.querySelector('.returnStatus').innerHTML = '<span class="pill ok">Reminder sent</span>';
+    addLogRow('Mark T.', 'EAB treatment · Due this week', '<span class="pill ok">Reminder sent</span>', 'SMS sent, return visit offered');
+  });
+})();
+</script>
+</body>
+</html>
