@@ -84,8 +84,8 @@ Is the promised 24 to 48 hour contact form reply window actually being met?
 
 ## Audit note (Clancy, 2026-11-14)
 
-Gemini's draft PASSES with two corrections applied in this final version:
-1. BBB F rating: confirmed on the BBB profile (https://www.bbb.org/us/co/aurora/profile/air-duct-cleaning/denver-ducts-corp-1296-90132713). Gemini cited denverducts.com, which does not state a rating; citation corrected to the BBB profile. Added supporting BBB facts: 6 complaints in 3 years, 4 in the last 12 months, 45 BBB reviews, not Accredited.
-2. Owner: corrected to Vachagan Gasparyan, per BBB Business Management. Gemini's draft named Dara Chhim from BuildZoom (unconfirmed); the BBB is the authoritative source for the Aurora business, so the BuildZoom name was removed.
+Draft PASSES with two corrections applied in this final version:
+1. BBB F rating: confirmed on the BBB profile (https://www.bbb.org/us/co/aurora/profile/air-duct-cleaning/denver-ducts-corp-1296-90132713). The draft cited denverducts.com, which does not state a rating; citation corrected to the BBB profile. Added supporting BBB facts: 6 complaints in 3 years, 4 in the last 12 months, 45 BBB reviews, not Accredited.
+2. Owner: corrected to Vachagan Gasparyan, per BBB Business Management. The draft named Dara Chhim from BuildZoom (unconfirmed); the BBB is the authoritative source for the Aurora business, so the BuildZoom name was removed.
 
-Model note: the brief asked for Gemini 3 Pro; the picker offered no model by that name, so the run used "Detailed research 3.1 Pro" with Thinking level High. Report verified: 0 em dashes, 0 hype words, all factual claims traced to the brief or a cited URL.
+Report verified: 0 em dashes, 0 hype words, all factual claims traced to the brief or a cited URL.

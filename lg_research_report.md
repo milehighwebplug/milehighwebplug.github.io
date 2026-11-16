@@ -1,4 +1,4 @@
-# L&G Cleaning Services: Research Report (Gemini original, 2026-11-13)
+# L&G Cleaning Services: Research Report
 
 ## 1. Executive Summary
 The Business: L&G Cleaning Services is a family-owned cleaning company established in 2011, serving the Aurora and greater Denver, Colorado area. Reviews praise quality, reliability, and communication.

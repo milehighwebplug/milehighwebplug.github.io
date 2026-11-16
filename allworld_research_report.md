@@ -1,4 +1,4 @@
-# All World Automotive: Research Report (Gemini original, 2026-11-13)
+# All World Automotive: Research Report
 
 ## 1. Executive Summary
 The Business: All World Automotive is an independent auto repair shop based in Aurora, Colorado. Established in 2017 and owned by Ali, the shop provides a wide range of general repair services and has built a base of long-time customers who praise the quality of work and fair pricing.

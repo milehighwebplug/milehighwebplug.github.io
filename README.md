@@ -5,7 +5,7 @@ Single-page static site. No build step, no invented clients.
 ## Contents
 - `index.html` — the site. Title, overview, 3 service lines, 15 skills, HN demo
   (30 rows, 6/6 pytest, selector-fix story), How I Work (35/40/25, IP on final
-  payment, $300/mo retainer), contact via Upwork / GitHub gulp7096.
+  payment, $300/mo retainer), contact via Upwork / GitHub milehighwebplug.
 - `hn_top30.csv` — the verified HN demo output (30 rows, copied 2026-11-12).
 - `scraper.py` — the HN scraper as run (includes the `a[href^="user?id="]` fix).
 - `verify_deliverable.py` — the 6-test pytest suite.
@@ -15,7 +15,7 @@ Single-page static site. No build step, no invented clients.
 The portfolio now lives on the Mile High Web Plug org site at
 https://pages.milehighwebplug.xyz/ — the org repo
 `milehighwebplug/milehighwebplug.github.io` (main branch). It replaced the
-MHWP website mirror there. The old personal site at gulp7096.github.io still
+MHWP website mirror there. The old personal site still
 exists but is no longer the canonical portfolio.
 
 1. Push this folder's contents to the org repo `milehighwebplug.github.io`,
